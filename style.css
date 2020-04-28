@@ -49,10 +49,10 @@ table {
     
     /* Cause visual feedback to user when
     tile is hovered */
-    .gameAreaWrapper a:hover {
+    /* .gameAreaWrapper a:hover {
     background:rgba(255,255,0,0.5);
     transform: scale(1.1);
-    }
+    } */
 
 
 tr {
@@ -77,11 +77,11 @@ td {
     padding: 0;
 }
 
-td :hover{
+/* td :hover{
     background: rgba(37, 88, 228, 0.7);
     height: 50px;
     width: 50px;
-}
+} */
 
 /* img {
     height: 100px;
@@ -89,13 +89,62 @@ td :hover{
     float: right;
 } */
 
-#Dwight {
-    height: 48px;
-    width: 48px;
+.Dwight {
+    background-image: url("Dwight.png");
+    background-size:     contain;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center;  
+    pointer-events: none;
 }
 
-#Jim {
-    height: 48px;
-    width: 48px;
-    float: right;
+.Jim {
+    background-image: url("Jim.png");
+    background-size:     contain;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center;  
+}
+
+.Jim:hover{
+    box-shadow: 0px 0px 10px yellow;
+    background-size: 48px;
+  }
+
+.crystal {
+    background-image: url("Crystal.png");
+    background-size:     contain;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center; 
+    pointer-events: none;
+}
+
+.snowman{
+    background-image: url("SnowMan.png");
+    background-size:     contain;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center; 
+    pointer-events: none;
+}
+
+.tree{
+    background-image: url("Tree_2.png");
+    background-size:     contain;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center; 
+    pointer-events: none;
+}
+
+.snowballs{
+    background-image: url("snowball.png");
+    background-size:     contain;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center; 
+    box-shadow: 0px 0px 10px blue;
+
+}
+
+.gun{
+    background-image: url("gun.png");
+    background-size:     contain;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center; 
 }

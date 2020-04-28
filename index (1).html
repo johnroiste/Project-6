@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="stylesheet" type="text/css" href="style.css" media="screen"/>
+</head>
+<body >
+    <!-- <div id="container">
+     <div id="grid"> -->
+        
+        <div onload="startGame()" class="gameAreaWrapper">
+            <!--
+            Added by your script
+            <canvas />
+          -->
+          </div>
+          <!-- <img id="Dwight" src="Dwight.png")>
+          <img id="Jim" src="Jim.png")> -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>   
+<script>
+  //code to try place characters
+
+//end of the character random placement.
+$(document).ready(function(){
+  $("#tile0-0").click(function(){
+    alert("you clicked " + $(this).attr("id"));
+  
+});
+})
+document.addEventListener("DOMContentLoaded", function () {
+
+
+function generateGameBoardSquares(wrapper) {
+
+for(let x = 0; x < 10; x++) {
+  for(let y = 0; y < 10; y++) {
+    
+    const tile = document.createElement("a");
+    tile.style.left = `${x*10}%`
+    tile.style.top = `${y*10}%`    
+    tile.classList = 'square'  
+
+    // //class condition for available square
+    // function available() {
+    //   if($('a').click)
+    // }
+    //move Jim
+    var squares = $('a').click(function() {
+      if ((this.className) !== ('Jim')) {
+      $('.Jim').removeClass().addClass('square');
+      $(this).addClass('Jim');
+      }
+      
+    });
+
+ 
+    // tile.className = "grid-item";
+    tile.id = "tile" + x + "-" + y ;
+
+    wrapper.append(tile);
+    
+  }  
+}
+}
+function generateGame(){
+reset();
+generate(function(){
+    placeElements("player-1");
+  },1);
+  generate(function(){
+    placeElements("player-2");
+  },1);
+  movePlayer(player1);
+  movePlayer(player2);
+  pathHighlight();
+}
+
+
+var myGameArea = {
+canvas: document.createElement("canvas"),
+start: function() {
+  this.canvas.width = 480;
+  this.canvas.height = 480;
+  this.canvas.style.cursor = "default";
+  this.context = this.canvas.getContext("2d");
+
+  // const gamePiece = document.getElementById('Dwight');
+  // gamePiece.append(this.canvas);
+
+  const gameAreaWrapper = document.querySelector(".gameAreaWrapper");
+  gameAreaWrapper.append(this.canvas);    
+  
+  /* Cause wrapper to perfectly wrap the canvas that we want 
+  to align with */
+  gameAreaWrapper.style.width = `${this.canvas.width}px`;
+  gameAreaWrapper.style.height = `${this.canvas.height}px`;
+  
+  // gamePiece.style.width = 48;
+  // gamePiece.style.height = 48;
+  /* Generate grid cells */
+  generateGameBoardSquares(gameAreaWrapper);
+  
+  $.fn.random = function() {
+  return this.eq(Math.floor(Math.random() * this.length));
+  }          
+  $('a').random().addClass("Jim");
+  // $("#tile0-0").addClass("Jim")
+  $('a').random().addClass("Dwight");
+  $('a').random().addClass("snowman");
+  $('a').random().addClass("snowman");
+  $('a').random().addClass("snowman");
+  $('a').random().addClass("snowballs");
+  $('a').random().addClass("crystal");
+  $('a').random().addClass("tree");
+  $('a').random().addClass("tree");
+  $('a').random().addClass("tree");
+  $('a').random().addClass("tree");
+  $('a').random().addClass("gun");
+  
+   
+  this.frameNo = 0;
+  /*
+  this.interval = setInterval(updateGameArea, 20);
+  */
+  
+  /* correct event name is "click" */
+  window.addEventListener('click', function(e) {
+    myGameArea.x = e.pageX;
+    myGameArea.y = e.pageY;
+  })
+
+
+}
+}
+
+
+myGameArea.start();
+});
+
+</script>
+
+<!-- <p>We have created a game area! (or at least an empty canvas)</p> -->
+
+</body>
+</html>
+
