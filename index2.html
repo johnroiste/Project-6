@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="stylesheet" type="text/css" href="style.css" media="screen"/>
+</head>
+<body>
+
+    <!-- <div id="start">
+      <button onclick="getElementById('start').style.visibility = 'hidden'">Click to play</button>
+
+      <iframe src="silence.mp3" allow="autoplay" id="audio" style="display: none"></iframe>
+      <iframe src="office.mp3" allow="autoplay" style="display:none" id="iframeAudio">
+      </iframe>
+      <div id="rules"><p id="title">Game rules</p>
+          <ul id="howtoplay">
+            <li>Make your way around icy Scranton <br> by moving up or down and left or right</li>
+            <li>Choose from 4 weapons</li>
+            <li>When you reach your opponent Fight or defend</li>
+          </ul>
+          <img class="pics" src="snowball.png" alt="picofsnowballs">
+          <img class="pics" src="gun.png" alt="">
+          <img class="pics" src="nunchucks.jpg" alt="">
+          <img class="pics" src="ninjastar.png" alt="">
+      </div>
+      
+     </div> -->
+    <h1>Current Player is: <span id="current-player">1</span></h1>
+    <!-- <div id="container">
+     <div id="grid"> -->
+    <div id="leftDashboard">
+      <img src="jim.png" alt="">
+      <h2>Name:</h2>
+      <h2>Health:</h2>
+      <h2>Current weapon:</h2>
+    </div> 
+        <div onload="startGame()" class="gameAreaWrapper">
+            <!--
+            Added by your script
+            <canvas />
+          -->
+          </div>
+    <div id="rightDashboard">
+      <img src="Dwight.png" alt="">
+      <h2 class="right">Name:</h2>
+      <h2 class="right">Health:</h2>
+      <h2 class="right">Current weapon:</h2>
+    </div>       
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>   
+<script>
+
+  
+$(document).ready(function(){
+  //add class of edge to board edge
+  if ($('a').hasClass('edge', 'highlightPath')) {
+    $('a').removeClass('highLightPath').addClass('red');
+  }
+  $('#10, #20, #30, #40, #50, #60, #70, #80, #90').addClass('edge');
+  $('#1, #11, #21, #31, #41, #51, #61, #71, #81, #91').addClass('edgeLeft');
+  $('.snowman1').addClass('dimmed');
+  $('.snowman2').addClass('dimmed');
+  $('.snowman3').addClass('dimmed');
+  $('.tree1').addClass('dimmed');
+  $('.tree2').addClass('dimmed');
+  $('.tree3').addClass('dimmed');
+  $('.tree4').addClass('dimmed');
+  $('.crystal1').addClass('dimmed');
+  $('.crystal2').addClass('dimmed');
+  $('.crystal3').addClass('dimmed');
+    
+    //var isSquareOk = true;
+    var blocksRight = 1;
+    
+    
+    // while(blocksRight < 3){
+    //     if ($(".Jim").next().not(".edge") || $(".Jim").nextAll().slice(0,2).not(".edge") ||
+    //     $(".Jim").nextAll().slice(0,3).not(".edge") )
+    //         { 
+    //             blocksRight++;
+    //             $(".Jim").nextAll().slice(0,blocksRight).addClass('highlightPath');
+
+    //         } 
+        
+    // }
+    // do {
+    //   $(".Jim").next().slice(0,3).addClass('highlightPath');
+    // }
+    // while ($(".Jim").next().slice(0,3).not('.edgeLeft'));
+   
+    
+    
+  //If statement to make sure he doesn't go off the gameboard Yes
+ if ($(".Jim").nextAll().slice(0,3).hasClass('available') && $(".Jim").nextAll().slice(3,4).hasClass('edgeLeft')){
+  $(".Jim").nextAll().slice(0,3).addClass('highlightPath');
+  $(".dimmed").removeClass('highlightPath');
+ } else if ($(".Jim").nextAll().slice(2,3).hasClass('edgeLeft') && $(".Jim").nextAll().slice(0,3).hasClass('available')){
+  $(".Jim").nextAll().slice(0,2).addClass('highlightPath');
+  $(".dimmed").removeClass('highlightPath');
+ } else if ($(".Jim").nextAll().slice(1,2).hasClass('edgeLeft') && $(".Jim").nextAll().slice(0,3).hasClass('available')){
+  $(".Jim").nextAll().slice(0,1).addClass('highlightPath');
+  $(".dimmed").removeClass('highlightPath');
+ } else if ($(".Jim").nextAll().slice(0,1).not('.edgeLeft') && $(".Jim").nextAll().slice(0,2).not('.edgeLeft')
+ && $(".Jim").nextAll().slice(0,3).not('.edgeLeft') && $('.Jim').prevAll().slice(0,1).not('.edge')){
+  $(".Jim").nextAll().slice(0,3).addClass('highlightPath');
+  $(".dimmed").removeClass('highlightPath');
+ } else if ($('.Jim').hasClass('edge') && $(".Jim").nextAll().slice(0,1).hasClass('edgeLeft')) {
+  $(".Jim").next().removeClass('highlightPath');
+  $(".Jim").nextAll().slice(0,3).removeClass('highlightPath');
+  $(".Jim").nextAll().slice(0,2).removeClass('highlightPath');
+  $(".Jim").nextAll().slice(0,1).removeClass('highlightPath');
+  $(".dimmed").removeClass('highlightPath');
+ } else if ($('.Jim').hasClass('edge') && $(".Jim").nextAll().slice(0,3).hasClass('available')){
+  $(".Jim").nextAll().slice(0,3).addClass('highlightPath');
+
+}
+
+// going backwards Yes
+ if ($(".Jim").prevAll().slice(0,3).hasClass('available') && $(".Jim").prevAll().slice(3,4).hasClass('edge')){
+  $(".Jim").prevAll().slice(0,3).addClass('highlightPath');
+ } else if ($(".Jim").prevAll().slice(2,3).hasClass('edge') && $(".Jim").prevAll().slice(0,3).hasClass('available')){
+  $(".Jim").prevAll().slice(0,2).addClass('highlightPath');
+ } else if ($(".Jim").prevAll().slice(1,2).hasClass('edge') && $(".Jim").prevAll().slice(0,3).hasClass('available')){
+  $(".Jim").prevAll().slice(0,1).addClass('highlightPath');
+ } else if ($(".Jim").prevAll().slice(0,1).not('.edgeLeft') && $(".Jim").prevAll().slice(0,2).not('.edge')
+ && $(".Jim").prevAll().slice(0,3).not('.edge') && $('.Jim').nextAll().slice(0,1).not('.edgeLeft')){
+  $(".Jim").prevAll().slice(0,3).addClass('highlightPath');
+ } else if ($('.Jim').prevAll().slice(0,1).hasClass('edge')) {
+  $(".Jim").prevAll().slice(0,1).removeClass('highlightPath available').addClass('highlightPathOff');
+ } else if ($('.Jim').prevAll().slice(0,1).hasClass('dimmed') || $('.Jim').prevAll().slice(0,2).hasClass('dimmed')){
+  $('.Jim').prevAll().slice(0,3).removeClass('highlightPath')
+  $('.Jim').prevAll().slice(0,2).removeClass('highlightPath')
+
+ }
+
+ //going up Yes
+    if ($(".Jim").prevAll().slice(9,10).hasClass('available') && $(".Jim").prevAll().slice(9,10).not(".dimmed")
+    ||  $(".Jim").prevAll().slice(19,20).hasClass('available') && $(".Jim").prevAll().slice(19,20).not(".dimmed")
+    ||  $(".Jim").prevAll().slice(29,30).hasClass('available') && $(".Jim").prevAll().slice(29,30).not(".dimmed")) {
+        
+        $(".Jim").prevAll().slice(9,10).addClass('highlightPath');
+        $(".Jim").prevAll().slice(19,20).addClass('highlightPath');
+        $(".Jim").prevAll().slice(29,30).addClass('highlightPath');
+
+    } else if ($(".Jim").prevAll().slice(9,10).hasClass('dimmed')){
+        $('.Jim').prevAll().slice(9,10).removeClass('highlightPath');
+        $(".Jim").nextAll().slice(9,20).removeClass('highlightPath')
+        $(".Jim").nextAll().slice(9,30).removeClass('highlightPath')
+    }
+
+  //going down Yes
+    if ($(".Jim").nextAll().slice(9,10).hasClass('available') && $(".Jim").nextAll().slice(9,10).not(".dimmed")
+    || $(".Jim").nextAll().slice(19,20).hasClass('available') && $(".Jim").nextAll().slice(19,20).not(".dimmed")
+    || $(".Jim").nextAll().slice(29,30).hasClass('available') && $(".Jim").nextAll().slice(29,30).not(".dimmed")){
+   
+        $(".Jim").nextAll().slice(9,10).addClass('highlightPath');
+        $(".Jim").nextAll().slice(19,20).addClass('highlightPath');
+        $(".Jim").nextAll().slice(29,30).addClass('highlightPath');
+
+    }
+
+
+
+//If statement to make sure he doesn't go through obstacles
+      // Checking for obstacle in the 3rd square
+    if ($(".Jim").nextAll().slice(2,3).hasClass('dimmed')){
+       $(".Jim").nextAll().slice(0,2).addClass('highlightPath');
+       //Checking for obstacle in the second square ( doesn't work)
+ } else if ($(".Jim").nextAll().slice(0,2).hasClass('dimmed')) {
+        $(".Jim").nextAll().slice(0,1).addClass('highlightPath')
+        $(".Jim").nextAll().slice(2,3).removeClass('highlightPath')
+        $(".Jim").nextAll().slice(0,3).removeClass('highlightPath')
+        //Checking for obstacle in the 1st square or 1st and 3rd square
+   } else if ($(".Jim").next().hasClass('dimmed') || ($(".Jim").next().hasClass('dimmed') && $(".Jim").nextAll().slice(0,3).hasClass('dimmed'))
+   || ($(".Jim").next().hasClass('dimmed') && $(".Jim").nextAll().slice(0,2).hasClass('dimmed'))) {
+    $('.Jim').nextAll().slice(0,3).removeClass('highlightPath');
+    $(".Jim").nextAll().slice(0,2).removeClass('highlightPath')
+    $(".Jim").nextAll().slice(0,1).removeClass('highlightPath')
+        //Checking for obstacle in 2nd square - doesn't work
+   } else if ($(".Jim").nextAll().slice(1,2).hasClass('dimmed')){
+    $(".Jim").nextAll().slice(0,1).addClass('highlightPath')
+        //Checking for obstacle in the 1st and 2nd square
+   } else if ($(".Jim").next.hasClass('dimmed') && $(".Jim").nextAll().slice(0,2).hasClass('dimmed')) {
+    $(".Jim").nextAll().slice(0,3).removeClass('highlightPath')
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   if ($(".Jim").prevAll().slice(2,3).hasClass('dimmed')){
+       $(".Jim").prevAll().slice(0,3).removeClass('highlightPath');
+       $(".Jim").prevAll().slice(0,2).addClass('highlightPath');
+   } else if ($(".Jim").prevAll().slice(0,2).hasClass('dimmed')) {
+       $(".Jim").prevAll().slice(0,3).removeClass('highlightPath');
+       $(".Jim").prevAll().slice(0,2).removeClass('highlightPath');
+       $(".Jim").prevAll().slice(0,1).addClass('highlightPath')
+   } else if ($(".Jim").prevAll().slice(0,1).hasClass('dimmed')) {
+    $('.Jim').prevAll().slice(0,3).removeClass('highlightPath');
+    $(".Jim").prevAll().slice(0,2).removeClass('highlightPath');
+    $(".Jim").prevAll().slice(0,1).removeClass('highlightPath')
+    $(".Jim").prev().removeClass('highlightPath')  
+   }
+    else if ($(".Jim").prevAll().slice(1,2).hasClass('dimmed')) {
+    $('.Jim').prevAll().slice(0,3).removeClass('highlightPath');
+    $(".Jim").prevAll().slice(0,2).removeClass('highlightPath');
+    $(".Jim").prevAll().slice(0,1).removeClass('highlightPath')
+    $(".Jim").prev().removeClass('highlightPath')   
+
+   } else if ($(".Jim").prevAll().slice(0,1).hasClass('dimmed')){
+    $('.Jim').prevAll().slice(0,3).removeClass('highlightPath');
+    $(".Jim").prevAll().slice(0,2).removeClass('highlightPath');
+    $(".Jim").prevAll().slice(0,1).removeClass('highlightPath')
+  
+    } else {
+      $('.Jim').prevAll().slice(0,3).addClass('highlightPath');
+    }
+// if ($(".Jim").nextAll().slice(2,3).hasClass('dimmed') && $(".Jim").nextAll().slice(0,3).hasClass('available')){
+//   $(".Jim").nextAll().slice(0,2).addClass('highlightPath');
+// }
+//  } if ($(".Jim").nextAll().slice(0,3).hasClass('available') && $(".Jim").nextAll().slice(3,4).hasClass('dimmed')){
+//   $(".Jim").nextAll().slice(0,3).addClass('highlightPath');
+//  } else if ($(".Jim").nextAll().slice(2,3).hasClass('dimmed') && $(".Jim").nextAll().slice(0,3).hasClass('available')){
+//   $(".Jim").nextAll().slice(0,2).addClass('highlightPath');
+//  } else if ($(".Jim").nextAll().slice(1,2).hasClass('dimmed') && $(".Jim").nextAll().slice(0,3).hasClass('available')){
+//   $(".Jim").nextAll().slice(0,1).addClass('highlightPath');
+//  }
+// //   else if ($(".Jim").nextAll().slice(0,2).hasClass('edgeLeft')) {
+//   $(".Jim").next(0,0).addClass('highlightPath');
+//  }
+//  } else if ($('.Jim').nextAll().not('.edgeLeft')){
+//   $(".Jim").nextAll().slice(0,3).addClass('highlightPath');
+
+
+//  else {
+//   $('.Jim').nextAll().slice(0,3).addClass('highlightPath');
+// }
+ 
+//  || $(".Jim").nextAll().slice(0,1).hasClass(".edgeLeft") || $(".Jim").nextAll().slice(0,2).hasClass(".edgeLeft")) 
+//   ||  $(".Jim").prevAll().slice(0,3).hasClass('available') && $(".Jim").prevAll().slice(0,3).not(".dimmed")
+//   || $(".Jim").nextAll().slice(9,10).hasClass('available') && $(".Jim").nextAll().slice(9,10).not(".dimmed")
+//   || $(".Jim").nextAll().slice(19,20).hasClass('available') && $(".Jim").nextAll().slice(19,20).not(".dimmed")
+//   || $(".Jim").nextAll().slice(29,30).hasClass('available') && $(".Jim").nextAll().slice(29,30).not(".dimmed")
+//   ||  $(".Jim").prevAll().slice(9,10).hasClass('available') && $(".Jim").prevAll().slice(9,10).not(".dimmed")
+//   ||  $(".Jim").prevAll().slice(19,20).hasClass('available') && $(".Jim").prevAll().slice(19,20).not(".dimmed")
+//   ||  $(".Jim").prevAll().slice(29,30).hasClass('available') && $(".Jim").prevAll().slice(29,30).not(".dimmed"))
+//
+//    {
+// //    
+// // 
+// //  $('.edgeLeft').removeClass('highLight');
+// //  $(".Jim").nextAll().slice(0,3).addClass('highlightPath');
+// //  $(".Jim").nextAll().slice(9,10).addClass('highlightPath');
+// //  $(".Jim").nextAll().slice(19,20).addClass('highlightPath');
+// //  $(".Jim").nextAll().slice(29,30).addClass('highlightPath');
+// //  $(".Jim").prevAll().slice(9,10).addClass('highlightPath');
+// //  $(".Jim").prevAll().slice(19,20).addClass('highlightPath');
+// //  $(".Jim").prevAll().slice(29,30).addClass('highlightPath');
+
+//   // if ($("a").data('clicked')){
+//     // $("a[target='_blank']").removeClass('highlightPath');
+//     // $(".Jim").location.reload();
+// //  } else if ($(".Jim").hasClass('edge')) {
+// //    $('.Jim').nextAll().slice(0,3).removeClass('high');
+// //
+// // 
+// //
+   
+  
+  });
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+// let Jim = document.querySelector('.Jim');
+let Dwight = document.querySelector('.Dwight');
+let snowballs = document.getElementsByClassName('.snowballs');
+let gun = document.getElementsByClassName('.gun');
+let ninjastar = document.getElementsByClassName('.ninjastar')
+let nunchucks = document.getElementsByClassName('.nunchucks');
+
+// console.log($('.Jim').attr("id"));
+
+
+Jim = {
+  firstName: "Jim",
+  lastName: "Halpert",
+  currentWeaponJim: "",
+  health: 100,
+}
+
+Dwight = {
+  firstName: "Dwight",
+  lastName: "Shrute",
+  currentWeapon: snowballs,
+  health: "100"
+}
+
+
+console.log('Jim')
+
+
+//player turns
+const displayCurrentPlayer = document.querySelector('#current-player');
+displayCurrentPlayer.textContent = " Jim";
+
+
+function generateGameBoardSquares(wrapper) {
+  let counter = 1;
+    
+  var specialSquare = new Array();
+ 
+for (let i = 0; i < 16; i++)
+    {
+       var num = Math.floor(Math.random() * (100 - 1)) + 1;
+        
+        if(specialSquare.find(element => element == num))
+            {
+                i--;
+            } else {
+                specialSquare[i] = num;
+          //       window.alert(specialSquare[i]);
+            }
+        
+    }
+ 
+    
+
+for(let y = 0; y < 10; y++) {
+  for(let x = 0; x < 10; x++) {
+    
+    
+    const tile = document.createElement("a");
+    tile.style.left = `${x*10}%`
+    tile.style.top = `${y*10}%`    
+    tile.classList = 'square'  
+    // tile.id = x + ' ' + y ;
+    tile.id = counter;
+    counter++;
+    
+    wrapper.append(tile);
+    
+    
+   
+    function switchPlayer() {
+      $('.Dwight')
+    }
+
+
+
+    // $(".Jim").nextAll().slice(0,3).addClass('highlightPath')
+    var squares = $('.square').click(function() {    
+      // if ($(this).hasClass('.edge')){
+      //   $('a').removeClass('highlightPath')
+
+      if (($(this).hasClass("highlightPath"))) {
+        
+           
+      if ($(this).data('clicked', true));
+      $('.Jim').prevAll().removeClass('highlightPath')
+      $('.Jim').nextAll().removeClass('highlightPath')
+      if ($('this').hasClass('ninjastar')) {
+          Jim.push({'currentWeaponJim':$(this).attr('class')} )
+        }
+      $('.Jim').removeClass().addClass('square');
+      $(this).removeClass();
+      $(this).addClass('Jim');
+      // $(this).addClass('Jim');
+      // $('a').removeClass('highlightPath');
+      // $('.Dwight');
+      // $('.Dwight').nextAll().slice(0,3).addClass('highlightPath');
+      }
+
+      if ($(this).hasClass('ninjastar')) {
+        $(this).removeClass('ninjstar')
+        $('.Jim').removeClass();
+        $(this).addClass('Jim');
+
+      }
+      
+
+  //     switchPlayer();
+      
+
+
+      
+  // //end of function
+  //    }  else if ($('.Jim').next().slice(0,3).addClass('highLight') && $(".Jim").nextUntil('.edgeLeft').addClass('highlightPath'))
+  //      {
+      
+
+  //      console.log('Fight');
+  //    }
+     //end of beginning function
+  
+    });
+
+        
+    }
+    }
+  }  
+
+    let x = $('.Jim').id;
+
+
+var myGameArea = {
+canvas: document.createElement("canvas"),
+start: function() {
+  this.canvas.width = 480;
+  this.canvas.height = 480;
+  this.canvas.style.cursor = "default";
+  this.context = this.canvas.getContext("2d");
+
+  const gameAreaWrapper = document.querySelector(".gameAreaWrapper");
+  gameAreaWrapper.append(this.canvas);    
+  
+  /* Cause wrapper to perfectly wrap the canvas that we want 
+  to align with */
+  gameAreaWrapper.style.width = `${this.canvas.width}px`;
+  gameAreaWrapper.style.height = `${this.canvas.height}px`;
+
+  /* Generate grid cells */
+  generateGameBoardSquares(gameAreaWrapper);
+  
+  $.fn.random = function() {
+  var n = this.eq(Math.floor(Math.random() * this.length));
+  // window.alert(this.eq(Math.floor(Math.random() * this.length)));
+      return n;
+  }       
+  $('a').random().not(".Dwight, .snowman1, .snowman2, .snowman3, .crystal1, .crystal2, .crystal3, .tree1, .tree2, .tree3, .tree4, .gun, .snowballs, .nunchucks, .ninjastar").addClass("Jim");
+ 
+  $('a').random().not(".Jim, snowman1, .snowman2, .snowman3, .crystal1, .crystal2, .crystal3, .tree1, .tree2, .tree3, .tree4, .gun, .snowballs, .nunchucks, .ninjastar").addClass("Dwight");
+  
+  
+  $('a').random().not(".Dwight, .Jim, .snowman2, .snowman3, .crystal1, .crystal2, .crystal3, .tree1, .tree2, .tree3, .tree4, .gun, .snowballs, .nunchucks, .ninjastar").addClass("snowman1");
+  $('a').random().not(".Dwight, snowman1, .snowman3, .crystal1, .crystal2, .crystal3, .tree1, .tree2, .tree3, .tree4, .Jim, .gun, .snowballs, .nunchucks, .ninjastar").addClass("snowman2");
+  $('a').random().not(".Dwight, .Jim, snowman1, .snowman2, .crystal1, .crystal2, .crystal3, .tree1, .tree2, .tree3, .tree4,.gun, .snowballs, .nunchucks, .ninjastar").addClass("snowman3");
+  $('a').random().not(".Dwight, .Jim, snowman1, .snowman2, .snowman3, .crystal2, .crystal3, .tree1, .tree2, .tree3, .tree4, .gun, .snowballs, .nunchucks, .ninjastar").addClass("crystal1");
+  $('a').random().not(".Dwight, .Jim, snowman1, .snowman2, .snowman3, .crystal1, .crystal3, .tree1, .tree2, .tree3, .tree4, .gun, .snowballs, .nunchucks, .ninjastar").addClass("crystal2");
+  $('a').random().not(".Dwight, .Jim, snowman1, .snowman2, .snowman3, .crystal1, .crystal2, .tree1, .tree2, .tree3, .tree4,.gun, .snowballs, .nunchucks, .ninjastar").addClass("crystal3");
+  $('a').random().not(".Dwight, .Jim, snowman1, .snowman2, .snowman3, .crystal1, .crystal2, .crystal3, .tree2, .tree3, .tree4, .gun, .snowballs, .nunchucks, .ninjastar").addClass("tree1");
+  $('a').random().not(".Dwight, .Jim, snowman1, .snowman2, .snowman3, .crystal1, .crystal2, .crystal3, .tree1, .tree3, .tree4, .gun, .snowballs, .nunchucks, .ninjastar").addClass("tree2");
+  $('a').random().not(".Dwight, .Jim, snowman1, .snowman2, .snowman3, .crystal1, .crystal2, .crystal3, .tree1, .tree2, .tree4, .gun, .snowballs, .nunchucks, .ninjastar").addClass("tree3");
+  $('a').random().not(".Dwight, .Jim, snowman1, .snowman2, .snowman3, .crystal1, .crystal2, .crystal3, .tree1, .tree2, .tree3, .gun, .snowballs, .nunchucks, .ninjastar").addClass("tree4");
+  // if ($('a').random().hasClass("snowman").removeClass('available'));
+
+  //weapons
+  $('a').random().not(".Dwight, .Jim, snowman1, .snowman2, .snowman3, .crystal1, .crystal2, .crystal3, .tree1, .tree2, .tree3, .tree4, .gun, .nunchucks, .ninjastar").addClass("snowballs");
+  $('a').random().not(".Dwight, .Jim, snowman1, .snowman2, .snowman3, .crystal1, .crystal2, .crystal3, .tree1, .tree2, .tree3, .tree4, .snowballs, .nunchucks, .ninjastar").addClass("gun");
+  $('a').random().not(".Dwight, .Jim, snowman1, .snowman2, .snowman3, .crystal1, .crystal2, .crystal3, .tree1, .tree2, .tree3, .tree4, .gun, .snowballs, .ninjastar").addClass("nunchucks");
+  $('a').random().not(".Dwight, .Jim, snowman1, .snowman2, .snowman3, .crystal1, .crystal2, .crystal3, .tree1, .tree2, .tree3, .tree4, .gun, .snowballs, .nunchucks").addClass("ninjastar");
+  
+  this.frameNo = 0;
+  /*
+  this.interval = setInterval(updateGameArea, 20);
+  */
+  
+  /* correct event name is "click" */
+  window.addEventListener('click', function(e) {
+    myGameArea.x = e.pageX;
+    myGameArea.y = e.pageY;
+  })
+
+  //Trying to stop random pieces from overlapping 
+  $('.snowman').css("position", "absolute");
+  $('.tree').css("position", "absolute");
+  $('.crystal').css("position", "absolute");
+  $('.Dwight').css("position", "absolute");
+  $('.Jim').css("position", "absolute");
+
+  //add class of weapon
+  $('.gun').addClass('weapon');
+  $('.snowballs').addClass('weapon');
+  $('.nunchucks').addClass('weapon');
+  $('.ninjastar').addClass('weapon');
+
+
+
+
+  if ($('.square').not(".dimmed")) {
+    $('a').addClass('available');
+}
+
+}
+}
+
+
+myGameArea.start();
+});
+
+</script>
+
+<!-- <p>We have created a game area! (or at least an empty canvas)</p> -->
+
+</body>
+</html>
+
